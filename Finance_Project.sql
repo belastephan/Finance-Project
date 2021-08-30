@@ -55,7 +55,7 @@ WHERE creditcard.type is null;
 
 -- Definindo os piores clientes do ponto de vista das informações de empréstimos, ou seja, aqueles que concluiram o contrato com emprestimos nao pago--
 
-CREATE TEMPORARY TABLE worts_clients_loan AS
+CREATE TEMPORARY TABLE worst_clients_loan AS
 SELECT
 	status, account_id, sum(amount) AS AMOUNT
 	FROM loan
@@ -63,7 +63,7 @@ SELECT
     GROUP BY account_id, status
 	ORDER BY sum(amount) DESC;
 
-DROP TEMPORARY TABLE worts_clients_loan
+DROP TEMPORARY TABLE worst_clients_loan
 
 SELECT
 count(account_id)
@@ -75,16 +75,67 @@ SELECT
 count(*)
 FROM disposition
 
-CREATE TEMPORARY TABLE worts_clients_loan_all_info AS 
+CREATE TEMPORARY TABLE worst_clients_loan_all_info AS 
 SELECT
-client_id, disp_id, worts_clients_loan.account_id, status, type, AMOUNT
-FROM worts_clients_loan
-LEFT JOIN disposition on disposition.account_id = worts_clients_loan.account_id
+client_id, disp_id, worst_clients_loan.account_id, status, type, AMOUNT
+FROM worst_clients_loan
+LEFT JOIN disposition on disposition.account_id = worst_clients_loan.account_id
 WHERE type = "owner"
 ORDER BY account_id
 
-DROP TEMPORARY TABLE worts_clients_loan_all_info
+DROP TEMPORARY TABLE worst_clients_loan_all_info
 
 SELECT
 *
-FROM worts_clients_loan_all_info
+FROM worst_clients_loan_all_info
+
+-- Relacionando Temp worts_clients_loan_all_info com Tabela Credit Card --
+
+SELECT
+count(*)
+FROM creditcard
+
+SELECT
+*
+FROM creditcard
+RIGHT JOIN worst_clients_loan_all_info on creditcard.disp_id=worst_clients_loan_all_info.disp_id
+WHERE creditcard.type is not null;
+
+-- Foi concluído que 5 clientes que sao classificados como piores clientes do ponto de vista de emprestimo, possuem cartao. Para estes clientes o cartao deveria ser cancelado ou suspenso ate a quitação da divida de emprestimo.
+
+-- Criando uma tabela com as ulimas transacoes dos clientes--
+
+CREATE TEMPORARY TABLE last_transaction AS 
+SELECT
+account_id, max(date) AS last_transaction
+FROM transactions
+GROUP BY account_id
+ORDER BY account_id
+
+DROP TEMPORARY TABLE last_transaction
+
+-- Criando uma tabela com as últimas transacoes dos clientes--
+
+CREATE TEMPORARY TABLE last_transactions_clients
+SELECT
+last_transaction.*,trans_id, balance
+FROM transactions
+INNER JOIN last_transaction ON transactions.account_id = last_transaction.account_id AND transactions.date = last_transaction.last_transaction
+
+DROP TEMPORARY TABLE last_transactions_clients
+
+-- Relacionando a tabela de ultimas transacoes dos clientes com a tabela dos piores clientes --
+
+SELECT
+client_id, disp_id, trans_id, worst_clients_loan_all_info.account_id, last_transaction, status, type, AMOUNT, balance
+FROM worst_clients_loan_all_info 
+INNER JOIN last_transactions_clients ON worst_clients_loan_all_info.account_id = last_transactions_clients.account_id
+ORDER BY balance
+
+-- Descobrindo valores pagos por emprestimo --
+
+SELECT 
+*
+FROM loan
+
+
