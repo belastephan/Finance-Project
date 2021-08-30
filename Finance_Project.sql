@@ -134,8 +134,15 @@ ORDER BY balance
 
 -- Descobrindo valores pagos por emprestimo --
 
+CREATE TEMPORARY TABLE AS loan_payment
+SELECT 
+worst_clients_loan_all_info.*, K_symbol, permanentorder.amount AS debited_amount
+FROM permanentorder
+INNER JOIN worst_clients_loan_all_info ON worst_clients_loan_all_info.account_id = permanentorder.account_id
+WHERE K_symbol = "UVER"
+
+DROP TEMPORARY TABLE loan_payment
+
 SELECT 
 *
-FROM loan
-
-
+FROM loan_payment
