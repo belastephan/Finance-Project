@@ -12,7 +12,7 @@ Este projeto tem como objetivo encontrar novas oportunidades de vendas de produt
 
 ## The Steps
 
-A análise foi feita baseada em operações de manipulação de dados relacionais no SQL com estruras e operações do tipo joins, group by, order by, criação de tabela temporárias entre outras.
+A análise realizada baseou-se em operações de manipulação de dados relacionais no SQL com estruras e operações do tipo joins, group by, order by, criação de tabela temporárias entre outras.
 
 ## Conclusion
 
