@@ -1,6 +1,6 @@
 # Finance-Project
  
-<img src="https://cdn.corporatefinanceinstitute.com/assets/finance-definition.jpg"  width="500" height="250">
+<img src="https://cdn.corporatefinanceinstitute.com/assets/finance-definition.jpg"  width="500" height="200">
 
 ## Project Status
 
