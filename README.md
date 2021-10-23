@@ -8,19 +8,21 @@ Completed
 
 ## Project Description
 
-Este projeto tem como objetivo encontrar novas oportunidades de vendas de produtos e serviços.
+The aim of this project is to find new oportunities to sell financial products and services.
 
 ## The Steps
 
-A análise realizada baseou-se em operações de manipulação de dados relacionais no SQL com estruras e operações do tipo joins, group by, order by, criação de tabela temporárias entre outras.
+The analysis was based on SQL data manipulation using structures like JOINS, GROUP BY, ORDER BY, TEMPORARY TABLE and others.
 
 ## Conclusion
 
-Foi concluído que:
+It was concluded that:
 
-- dos 203 clientes que foram considerados melhores clientes do ponto de vista de empréstimo (tiveram seus contratos finalizados sem problemas), 143 ainda nao tem cartao de credito, e portanto este poderia ser um serviço a ofertá-los.
+- There are 203 clients that are considered the best ones in terms of getting loans because they have fineshed their contract without any problems.
 
-- dos 5 clientes que foram classificados como piores clientes do ponto de vista de empréstimo, possuem cartão. Para estes clientes o cartão deveria ser cancelado ou suspenso até a quitação da dívida de empréstimo.
+- In this group (loan best clients), there are around 143 that do not have credit cards yet, therefore it might be an opportunitty to target them.
+
+- There are 5 clients that are considered the worst ones in terms of getting loans who already have credit cards. For those clients, it might be suggested that the credit cards get canceled until the debts are paid off.
 
 ## Thanks
 Raiana Rocha (https://www.linkedin.com/in/raiana-rocha/)
